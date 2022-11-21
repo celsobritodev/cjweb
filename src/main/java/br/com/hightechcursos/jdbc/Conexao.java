@@ -15,15 +15,18 @@ public class Conexao {
 
 	public static Connection getConnection() {
 
-		Connection con=null;
+		Connection con = null;
 		try {
+			Class.forName(DRIVER);
 			con = DriverManager.getConnection(URL, USER_LOGIN, USER_PASSWD);
 			System.out.println("Conectado com sucesso!");
 		} catch (SQLException e) {
 
-			System.out.println("Não pode conectar:"+e.getMessage());
+			System.out.println("Não pode conectar:" + e.getMessage());
+		} catch (ClassNotFoundException e) {
+			System.out.println("Driver não encontrado!");
+			
 		}
 		return con;
 	}
-
 }
