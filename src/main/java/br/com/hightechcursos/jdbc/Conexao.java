@@ -17,7 +17,7 @@ public class Conexao {
 
 		Connection con = null;
 		try {
-			Class.forName(DRIVER);
+			Class.forName(DRIVER); // força o carregamento do driver
 			con = DriverManager.getConnection(URL, USER_LOGIN, USER_PASSWD);
 			System.out.println("Conectado com sucesso!");
 		} catch (SQLException e) {

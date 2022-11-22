@@ -1,11 +1,13 @@
 package br.com.hightechcursos.controller;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import br.com.hightechcursos.entidades.Usuario;
 import br.com.hightechcursos.jdbc.UsuarioDAO;
@@ -23,6 +25,8 @@ public class UsuarioController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+   
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -30,16 +34,16 @@ public class UsuarioController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Chamando o metodo doget");
 		
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		List<Usuario> usuarios = usuarioDAO.buscarTodos();
 		
-		String nome = request.getParameter("nome");
-		//System.out.println("Nome: "+nome);
+		// "engavetar"no request
+		request.setAttribute("lista", usuarios);
 		
-		String empresa = request.getParameter("empresa");
-	   // System.out.println("Empresa: "+empresa);
-	    
-	    PrintWriter saida = response.getWriter();
-	    
-	    saida.println("Nome: "+nome+" Empresa: "+empresa);
+
+		// encaminhamento
+		RequestDispatcher saida = request.getRequestDispatcher("listausuarios.jsp");
+		saida.forward(request, response);
 	
 	}
 
@@ -49,12 +53,18 @@ public class UsuarioController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Chamando o metodo dopost");
 		
+		String id = request.getParameter("txtid");
 		String nome = request.getParameter("txtnome");
 		String login = request.getParameter("txtlogin");
 		String senha = request.getParameter("txtsenha");
 		
 		// cria o objeto
 		Usuario usuario = new Usuario();
+		
+		if(id!=null && id!="" &id!="0") {
+			usuario.setId(Integer.parseInt(id));
+		}
+		
 		usuario.setNome(nome);
 		usuario.setLogin(login);
 		usuario.setSenha(senha);
@@ -62,11 +72,11 @@ public class UsuarioController extends HttpServlet {
 		
 		// cadastra o usuario
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		usuarioDAO.cadastrar(usuario);
+		usuarioDAO.salvar(usuario);
 		
 		// saida para o browser
 		PrintWriter saida = response.getWriter();
-		saida.print("Cadastrado!");
+		saida.print("Salvo");
 	}
 
 }

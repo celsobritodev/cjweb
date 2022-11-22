@@ -10,20 +10,20 @@ public class TestUsuarioDAO {
 	public static void main(String[] args) {
 		
 		testCadastrar();
-		testAlterar();
-		testExcluir();
-		testBuscarTodos();
-		testAutenticar();
-		testBuscarPorId();
+		//testAlterar();
+		//testExcluir();
+		//testBuscarTodos();
+		//testAutenticar();
+		//testBuscarPorId();
 
 	}
 
 	private static void testCadastrar() {
 		Usuario usu = new Usuario();
 		
-		usu.setNome("Virmeson1");
-		usu.setLogin("vir1");
-		usu.setSenha("vv1231");
+		usu.setNome("glauco miranda");
+		usu.setLogin("gla1980");
+		usu.setSenha("1989");
 		
 		UsuarioDAO usuDAO = new UsuarioDAO();
 		

@@ -32,6 +32,19 @@ public class UsuarioDAO {
 		}
 
 	}
+	
+	
+	
+	
+	public void salvar(Usuario usuario) {
+		if(usuario.getId()!=null && usuario.getId()!=0) {
+			this.alterar(usuario);
+		} else {
+			this.cadastrar(usuario);
+		}
+	}
+	
+	
 
 	public void alterar(Usuario usuario) {
 
