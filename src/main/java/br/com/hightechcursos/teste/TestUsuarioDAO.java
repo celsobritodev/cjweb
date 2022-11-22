@@ -9,7 +9,7 @@ public class TestUsuarioDAO {
 
 	public static void main(String[] args) {
 		
-		testCadastrar();
+		//testCadastrar();
 		//testAlterar();
 		//testExcluir();
 		//testBuscarTodos();

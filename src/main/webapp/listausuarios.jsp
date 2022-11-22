@@ -9,11 +9,38 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+<table border="1">
+
+<tr bgcolor="#CCCCCC">
+<th> ID</th> <th>Nome</th>  <th>Login</th>  <th>Senha> </th>
+
+
 <%
  List<Usuario> lista = (List<Usuario>) request.getAttribute("lista");
 
 for(Usuario usu:lista) {
- <%
 %>
+
+  <tr>
+      <td><% out.print(usu.getNome()); %></td>
+      <td> <%=usu.getLogin()%> </td>
+      <td> <%=usu.getSenha()%>  </td>
+      <td> <a href="usucontroller.do?acao=exc&id=<%=usu.getId()%>"> Excluir </a> </td>
+      
+      <td> <a href="usucontroller.do?acao=alt&id=<%=usu.getId()%>"> Alterar </a> </td>
+  </tr>
+  
+
+
+<% 
+
+}
+
+%>
+
+</table>
+
 </body>
+
 </html>

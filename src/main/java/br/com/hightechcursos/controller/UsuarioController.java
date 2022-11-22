@@ -12,68 +12,95 @@ import java.util.List;
 import br.com.hightechcursos.entidades.Usuario;
 import br.com.hightechcursos.jdbc.UsuarioDAO;
 
-
-
 //@WebServlet("/usucontroller.do")
 public class UsuarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UsuarioController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-   
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Chamando o metodo doget");
-		
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		List<Usuario> usuarios = usuarioDAO.buscarTodos();
-		
-		// "engavetar"no request
-		request.setAttribute("lista", usuarios);
-		
-
-		// encaminhamento
-		RequestDispatcher saida = request.getRequestDispatcher("listausuarios.jsp");
-		saida.forward(request, response);
-	
+	public UsuarioController() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Chamando o metodo dopost");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+	
+
+		String acao = request.getParameter("acao");
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		
+		System.out.println("Chamando o metodo doget e executando a acao: "+acao);
+
+		if (acao!=null && acao.equals("exc")) {
+
+			String id = request.getParameter("id");
+			Usuario usuario = new Usuario();
+			usuario.setId(Integer.parseInt(id));
+			usuarioDAO.excluir(usuario);
+
+		}
+		
+		
+		if (acao!=null && acao.equals("alt")) {
+
+			String id = request.getParameter("id");
+		    Usuario usuario = usuarioDAO.buscarPorId(Integer.parseInt(id));
+
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+			List<Usuario> usuarios = usuarioDAO.buscarTodos();
+
+			// "engavetar"no request
+			request.setAttribute("lista", usuarios);
+
+			// encaminhamento
+			RequestDispatcher saida = request.getRequestDispatcher("listausuarios.jsp");
+			saida.forward(request, response);
+		
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("Chamando o metodo dopost");
+
 		String id = request.getParameter("txtid");
 		String nome = request.getParameter("txtnome");
 		String login = request.getParameter("txtlogin");
 		String senha = request.getParameter("txtsenha");
-		
+
 		// cria o objeto
 		Usuario usuario = new Usuario();
-		
-		if(id!=null && id!="" &id!="0") {
+
+		if (id != null && id != "" & id != "0") {
 			usuario.setId(Integer.parseInt(id));
 		}
-		
+
 		usuario.setNome(nome);
 		usuario.setLogin(login);
 		usuario.setSenha(senha);
-		
-		
+
 		// cadastra o usuario
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		usuarioDAO.salvar(usuario);
-		
+
 		// saida para o browser
 		PrintWriter saida = response.getWriter();
 		saida.print("Salvo");
